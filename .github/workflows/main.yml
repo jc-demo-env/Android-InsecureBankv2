@@ -11,12 +11,17 @@ jobs:
     container:
       image: us-central1-docker.pkg.dev/prod-scandal-us/datatheorem-sast/datatheorem-sast:latest
       env:
-        DT_SAST_API_KEY: ${{ secrets.DT_RESULTS_API_KEY }}
+        DT_SAST_API_KEY: ${{ secrets.DT_SAST_API_KEY_DEV }}
+        DT_SAST_REPOSITORY_NAME: ${{ github.event.repository.full_name }}
+        DT_SAST_REPOSITORY_PLATFORM: GITHUB
+        DT_SAST_REPOSITORY_ID: ${{ github.event.repository.id }}
+        DT_SAST_REPOSITORY_HTML_URL: ${{ github.event.repository.html_url }}
+        DT_SAST_REPOSITORY_DEFAULT_BRANCH_NAME: ${{ github.event.repository.default_branch }}
+        DT_SAST_OUTPUT_DIR: ./
     steps:
       - uses: actions/checkout@v4
       - name: Start Data Theorem SAST Scan
-        run: data_theorem_sast_analyzer scan --name=$GITHUB_REPOSITORY --repo-platform=GITHUB --repo-id=$GITHUB_REPOSITORY_ID --repo-html-url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" --repo-default-branch-name=${{ github.event.repository.default_branch }}  --output-dir=$PWD
-      # Optional step to make scan results available as a Github artifact
+        run: data_theorem_sast_analyzer scan ./
       - uses: actions/upload-artifact@v4
         with:
           name: dt-sast-scan-result
