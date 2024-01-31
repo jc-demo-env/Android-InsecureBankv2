@@ -11,7 +11,7 @@ jobs:
     container:
       image: us-central1-docker.pkg.dev/prod-scandal-us/datatheorem-sast/datatheorem-sast:latest
       env:
-        DT_SAST_API_KEY: ${{ secrets.DT_SAST_API_KEY_DEV }}
+        DT_SAST_API_KEY: ${{ secrets.DT_SAST_API_KEY }}
         DT_SAST_REPOSITORY_NAME: ${{ github.event.repository.full_name }}
         DT_SAST_REPOSITORY_PLATFORM: GITHUB
         DT_SAST_REPOSITORY_ID: ${{ github.event.repository.id }}
